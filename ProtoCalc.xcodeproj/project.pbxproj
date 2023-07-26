@@ -15,6 +15,8 @@
 		493E51AC2A6F0E6600140F56 /* ProtoCalcUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493E51AB2A6F0E6600140F56 /* ProtoCalcUITests.swift */; };
 		493E51AE2A6F0E6600140F56 /* ProtoCalcUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493E51AD2A6F0E6600140F56 /* ProtoCalcUITestsLaunchTests.swift */; };
 		49939AF22A70BD180027C5C6 /* Expression in Frameworks */ = {isa = PBXBuildFile; productRef = 49939AF12A70BD180027C5C6 /* Expression */; };
+		49939AF82A71B6110027C5C6 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49939AF72A71B6110027C5C6 /* MainView.swift */; };
+		49939AFA2A71B9E20027C5C6 /* TestingRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49939AF92A71B9E20027C5C6 /* TestingRange.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +48,8 @@
 		493E51A72A6F0E6600140F56 /* ProtoCalcUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ProtoCalcUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		493E51AB2A6F0E6600140F56 /* ProtoCalcUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProtoCalcUITests.swift; sourceTree = "<group>"; };
 		493E51AD2A6F0E6600140F56 /* ProtoCalcUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProtoCalcUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		49939AF72A71B6110027C5C6 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		49939AF92A71B9E20027C5C6 /* TestingRange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestingRange.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,7 +102,9 @@
 			isa = PBXGroup;
 			children = (
 				493E518F2A6F0E6400140F56 /* ProtoCalcApp.swift */,
+				49939AF72A71B6110027C5C6 /* MainView.swift */,
 				493E51912A6F0E6400140F56 /* ContentView.swift */,
+				49939AF92A71B9E20027C5C6 /* TestingRange.swift */,
 				493E51932A6F0E6600140F56 /* Assets.xcassets */,
 				493E51952A6F0E6600140F56 /* ProtoCalc.entitlements */,
 				493E51962A6F0E6600140F56 /* Preview Content */,
@@ -267,6 +273,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				49939AFA2A71B9E20027C5C6 /* TestingRange.swift in Sources */,
+				49939AF82A71B6110027C5C6 /* MainView.swift in Sources */,
 				493E51922A6F0E6400140F56 /* ContentView.swift in Sources */,
 				493E51902A6F0E6400140F56 /* ProtoCalcApp.swift in Sources */,
 			);
