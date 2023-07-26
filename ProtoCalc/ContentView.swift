@@ -64,8 +64,9 @@ struct ContentView: View {
                         impactMed.impactOccurred()
                     })
                     {
-                        Text("CLEAR")
-                        
+                        Text("C")
+                            .font(.title)
+                            .fontWeight(.bold)
                             .frame(maxWidth: .infinity, maxHeight: .infinity)
                             .contentShape(Rectangle())
                     }
@@ -84,7 +85,25 @@ struct ContentView: View {
                     })
                     {
                         Text("\u{207A}\u{2215}\u{208B}")
-                        
+                            .font(.title)
+                            .fontWeight(.bold)
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                            .contentShape(Rectangle())
+                    }
+                    .buttonStyle(.bordered)
+                    
+                    Button(action: {
+                        let impactMed = UIImpactFeedbackGenerator(style: .medium)
+                        impactMed.impactOccurred()
+                        if(input.isEmpty == false){
+                            input += "/100"
+                            input = evaluateExpression(input)
+                        }
+                    })
+                    {
+                        Text("%")
+                            .font(.title)
+                            .fontWeight(.bold)
                             .frame(maxWidth: .infinity, maxHeight: .infinity)
                             .contentShape(Rectangle())
                     }
@@ -107,6 +126,8 @@ struct ContentView: View {
                                 impactMed.impactOccurred()
                             }) {
                                 Text("\(i + (j*3))")
+                                    .font(.title)
+                                    .fontWeight(.bold)
                                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                                     .contentShape(Rectangle())
                             }
@@ -117,73 +138,104 @@ struct ContentView: View {
                     }
                 }
                 
-                HStack{
-                    Spacer()
-                    Button( action:{
-                        input += "0"
-                        let impactMed = UIImpactFeedbackGenerator(style: .medium)
-                        impactMed.impactOccurred()
-                    }){
-                        Text("0")
-                            .frame(maxWidth: .infinity, maxHeight: .infinity)
-                            .contentShape(Rectangle())
-                    }.buttonStyle(.bordered)
-                    Button( action:{
-                        input += "."
-                        let impactMed = UIImpactFeedbackGenerator(style: .medium)
-                        impactMed.impactOccurred()
-                    }){
-                        Text(".")
-                            .frame(maxWidth: .infinity, maxHeight: .infinity)
-                            .contentShape(Rectangle())
-                    }.buttonStyle(.bordered)
-                    
-                    Spacer()
+                GeometryReader { geometry in
+                    HStack{
+                        Spacer()
+                        Button( action:{
+                            input += "0"
+                            let impactMed = UIImpactFeedbackGenerator(style: .medium)
+                            impactMed.impactOccurred()
+                        }){
+                            Text("0")
+                                .font(.title)
+                                .fontWeight(.bold)
+                                .frame(maxWidth: geometry.size.width * 3/4, maxHeight: .infinity)
+                                .contentShape(Rectangle())
+                        
+                        }
+                        
+                        .buttonStyle(.bordered)
+
+                        Button( action:{
+                            input += "."
+                            let impactMed = UIImpactFeedbackGenerator(style: .medium)
+                            impactMed.impactOccurred()
+                        }){
+                            Text(".")
+                                .font(.title)
+                                .fontWeight(.bold)
+                                .frame(maxWidth: geometry.size.width * 1/4, maxHeight: .infinity)
+                                .contentShape(Rectangle())
+                        
+                        }
+                        
+                        .buttonStyle(.bordered)
+
+                        Spacer()
+                    }
                 }
+
                 
 
             }
             
             //            Operation buttons
+            
+
             VStack{
-                Spacer()
                 Button(action:{
-                    input += "+"
+                    if(input.isEmpty==false){
+                        input += "+"
+                    }
                     let impactMed = UIImpactFeedbackGenerator(style: .medium)
                     impactMed.impactOccurred()
                 }){
                     Text("+")
+                        .font(.title)
+                        .fontWeight(.bold)
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                         .contentShape(Rectangle())
                 }.buttonStyle(.bordered)
                 
                 Button(action:{
-                    input += "-"
+                    if(input.isEmpty==false){
+                        input += "-"
+                    }
                     let impactMed = UIImpactFeedbackGenerator(style: .medium)
                     impactMed.impactOccurred()
                 }){
                     Text("-")
+                        .font(.title)
+                        .fontWeight(.bold)
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                         .contentShape(Rectangle())
                 }.buttonStyle(.bordered)
                 
                 
                 Button(action:{
-                    input += "*"
+                    if(input.isEmpty==false){
+                        input += "*"
+                    }
                     let impactMed = UIImpactFeedbackGenerator(style: .medium)
                     impactMed.impactOccurred()
                 }){
                     Text("x")
+                        .font(.title)
+                        .fontWeight(.bold)
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                         .contentShape(Rectangle())
                 }.buttonStyle(.bordered)
                 
                 Button(action:{
-                    input += "/"
+                    if(input.isEmpty==false){
+                        input += "/"
+                    }
                     let impactMed = UIImpactFeedbackGenerator(style: .medium)
                     impactMed.impactOccurred()
                 }){
                     Text("÷")
+                        .font(.title)
+                        .fontWeight(.bold)
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                         .contentShape(Rectangle())
                 }.buttonStyle(.bordered)
@@ -196,14 +248,17 @@ struct ContentView: View {
                     }
                 }){
                     Text("=")
+                        .font(.title)
+                        .fontWeight(.bold)
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                         .contentShape(Rectangle())
                 }.buttonStyle(.bordered)
 
                 
-                  Spacer()
             }
             .frame(maxWidth: 50)
+            Spacer()
+
             
         }
     }
