@@ -8,27 +8,33 @@
 import SwiftUI
 import Expression
 
-
-
+extension String {
+    var isNumber: Bool {
+        return self.range(
+            of: "^[0-9]*$", // 1
+            options: .regularExpression) != nil
+    }
+}
 
 struct ContentView: View {
+    
+    
     @State var input = ""
+
+    
     
     func evaluateExpression(_ expression: String) -> String {
         let expression = Expression(expression)
-        if let result = try? expression.evaluate() {
+        if(input.last == "+" || input.last == "-" || input.last == "*" || input.last == "/"){
+            input.removeLast()
+            return input
+        }else if let result = try? expression.evaluate() {
             let resultStr: String = (result.truncatingRemainder(dividingBy: 1) == 0) ? String(format: "%.0f", result) : String(result)
             return resultStr
         } else {
             return "Error"
         }
     }
-
-
-
-
-    
-    
     
     var body: some View {
         HStack{
@@ -36,17 +42,17 @@ struct ContentView: View {
             Text(input)
                 .font(.system(.largeTitle))
                 .fontWeight(.bold)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .contentShape(Rectangle())
             
-//            Fix later
-                .frame(maxWidth: .infinity, idealHeight: 60, maxHeight: .infinity)
-                .overlay(
-                    RoundedRectangle(cornerRadius: /*@START_MENU_TOKEN@*/25.0/*@END_MENU_TOKEN@*/)
-                        .stroke(Color.black, lineWidth: 2)
-                )
+            //Fix later
+                
             Spacer()
-            //            Delete button
+            //Delete button
             Button(
                 action: {
+                    let impactLig = UIImpactFeedbackGenerator(style: .light)
+                    impactLig.impactOccurred()
                     if(input.count > 0){
                         input.removeLast()
                     }
@@ -54,6 +60,7 @@ struct ContentView: View {
                     Image(systemName: "delete.left")
                         .frame(maxWidth: 50, maxHeight: 50)
                         .contentShape(Rectangle())
+                        
                 }
                 .buttonStyle(.bordered)
             
@@ -69,8 +76,8 @@ struct ContentView: View {
                     Spacer()
                     Button(action: {
                         input = ""
-                        let impactMed = UIImpactFeedbackGenerator(style: .medium)
-                        impactMed.impactOccurred()
+                        let impactHev = UIImpactFeedbackGenerator(style: .heavy)
+                        impactHev.impactOccurred()
                     })
                     {
                         Text("C")
@@ -183,19 +190,17 @@ struct ContentView: View {
                         Spacer()
                     }
                 }
-
-                
-
             }
-            
-            //            Operation buttons
-            
-
+            //Operation buttons
             VStack{
                 Button(action:{
-                    if(input.isEmpty==false){
+                    if(input.isEmpty==false && input.last?.isNumber==true){
+                        input += "+"
+                    } else{
+                        input.removeLast()
                         input += "+"
                     }
+                    
                     let impactMed = UIImpactFeedbackGenerator(style: .medium)
                     impactMed.impactOccurred()
                 }){
@@ -207,7 +212,10 @@ struct ContentView: View {
                 }.buttonStyle(.bordered)
                 
                 Button(action:{
-                    if(input.isEmpty==false){
+                    if(input.isEmpty==false && input.last?.isNumber==true){
+                        input += "-"
+                    } else{
+                        input.removeLast()
                         input += "-"
                     }
                     let impactMed = UIImpactFeedbackGenerator(style: .medium)
@@ -222,7 +230,10 @@ struct ContentView: View {
                 
                 
                 Button(action:{
-                    if(input.isEmpty==false){
+                    if(input.isEmpty==false && input.last?.isNumber==true){
+                        input += "*"
+                    }  else{
+                        input.removeLast()
                         input += "*"
                     }
                     let impactMed = UIImpactFeedbackGenerator(style: .medium)
@@ -236,7 +247,10 @@ struct ContentView: View {
                 }.buttonStyle(.bordered)
                 
                 Button(action:{
-                    if(input.isEmpty==false){
+                    if(input.isEmpty==false && input.last?.isNumber==true){
+                        input += "/"
+                    }  else{
+                        input.removeLast()
                         input += "/"
                     }
                     let impactMed = UIImpactFeedbackGenerator(style: .medium)
