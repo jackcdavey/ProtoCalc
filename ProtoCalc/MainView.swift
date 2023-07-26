@@ -4,18 +4,22 @@ struct MainView: View {
     var body: some View {
         TabView {
             ContentView()
-                .badge(2)
+                .badge(1)
                 .tabItem {
-                    Label("Calculator", systemImage: "tray.and.arrow.down.fill")
+                    Label("Calculator", systemImage: "function")
+						
                 }
+//				.background(.regularMaterial)
             TestingRange()
-                .badge(2)
                 .tabItem {
-                    Label("Testing", systemImage: "tray.and.arrow.up.fill")
+                    Label("Testing", systemImage: "testtube.2")
                 }
+//				.background(.regularMaterial)
             
             
         }
+		.toolbarBackground(.regularMaterial)
+		
     }
 }
 

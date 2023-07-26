@@ -22,7 +22,7 @@ struct TestingRange: View {
     var body: some View {
         ZStack {
             backgroundGradient
-                .ignoresSafeArea()
+				.ignoresSafeArea(edges: .top)
             VStack {
                 
                 Label("Flag", systemImage: "flag.fill")
