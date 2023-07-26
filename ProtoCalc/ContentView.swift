@@ -173,7 +173,16 @@ struct ContentView: View {
                         .buttonStyle(.bordered)
 
                         Button( action:{
-                            input += "."
+                             if(input.isEmpty){
+                                input = "0."
+                            } else if(input.contains(".") == false){
+                                input += "."
+                            } else {
+                                //Remove the decimal and place it at the end of input
+                                let index = input.firstIndex(of: ".")
+                                input.remove(at: index!)
+                                input += "."
+                            }
                             let impactMed = UIImpactFeedbackGenerator(style: .medium)
                             impactMed.impactOccurred()
                         }){
