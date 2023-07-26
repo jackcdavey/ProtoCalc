@@ -14,6 +14,7 @@
 		493E51A22A6F0E6600140F56 /* ProtoCalcTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493E51A12A6F0E6600140F56 /* ProtoCalcTests.swift */; };
 		493E51AC2A6F0E6600140F56 /* ProtoCalcUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493E51AB2A6F0E6600140F56 /* ProtoCalcUITests.swift */; };
 		493E51AE2A6F0E6600140F56 /* ProtoCalcUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493E51AD2A6F0E6600140F56 /* ProtoCalcUITestsLaunchTests.swift */; };
+		49939AF22A70BD180027C5C6 /* Expression in Frameworks */ = {isa = PBXBuildFile; productRef = 49939AF12A70BD180027C5C6 /* Expression */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +53,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				49939AF22A70BD180027C5C6 /* Expression in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -145,6 +147,9 @@
 			dependencies = (
 			);
 			name = ProtoCalc;
+			packageProductDependencies = (
+				49939AF12A70BD180027C5C6 /* Expression */,
+			);
 			productName = ProtoCalc;
 			productReference = 493E518C2A6F0E6400140F56 /* ProtoCalc.app */;
 			productType = "com.apple.product-type.application";
@@ -217,6 +222,9 @@
 				Base,
 			);
 			mainGroup = 493E51832A6F0E6400140F56;
+			packageReferences = (
+				49939AF02A70BD180027C5C6 /* XCRemoteSwiftPackageReference "Expression" */,
+			);
 			productRefGroup = 493E518D2A6F0E6400140F56 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -617,6 +625,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		49939AF02A70BD180027C5C6 /* XCRemoteSwiftPackageReference "Expression" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/nicklockwood/Expression";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.13.7;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		49939AF12A70BD180027C5C6 /* Expression */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 49939AF02A70BD180027C5C6 /* XCRemoteSwiftPackageReference "Expression" */;
+			productName = Expression;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 493E51842A6F0E6400140F56 /* Project object */;
 }

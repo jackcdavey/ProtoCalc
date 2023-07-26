@@ -6,21 +6,36 @@
 //
 
 import SwiftUI
+import Expression
 
-extension UIScreen{
-   static let screenWidth = UIScreen.main.bounds.size.width
-   static let screenHeight = UIScreen.main.bounds.size.height
-   static let screenSize = UIScreen.main.bounds.size
-}
+
+
 
 struct ContentView: View {
     @State var input = ""
+    
+    func evaluateExpression(_ expression: String) -> String {
+        let expression = Expression(expression)
+        if let result = try? expression.evaluate() {
+            let resultStr: String = (result.truncatingRemainder(dividingBy: 1) == 0) ? String(format: "%.0f", result) : String(result)
+            return resultStr
+        } else {
+            return "Error"
+        }
+    }
+
+
+
+
+    
     
     
     var body: some View {
         HStack{
             Spacer()
             Text(input).bold()
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .contentShape(Rectangle())
             Spacer()
             //            Delete button
             Button(
@@ -131,7 +146,7 @@ struct ContentView: View {
             
             //            Operation buttons
             VStack{
-                
+                Spacer()
                 Button(action:{
                     input += "+"
                     let impactMed = UIImpactFeedbackGenerator(style: .medium)
@@ -174,21 +189,19 @@ struct ContentView: View {
                 }.buttonStyle(.bordered)
                 
                 Button(action:{
-                    
-                    
-//                    Trigger calc function here
-                    
-                    
-                    input += "="
                     let impactMed = UIImpactFeedbackGenerator(style: .medium)
                     impactMed.impactOccurred()
+                    if(input.isEmpty == false){
+                        input = evaluateExpression(input)
+                    }
                 }){
                     Text("=")
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                         .contentShape(Rectangle())
                 }.buttonStyle(.bordered)
+
                 
-                    
+                  Spacer()
             }
             .frame(maxWidth: 50)
             
