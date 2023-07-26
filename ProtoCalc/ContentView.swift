@@ -85,8 +85,13 @@ struct ContentView: View {
                             .fontWeight(.bold)
                             .frame(maxWidth: .infinity, maxHeight: .infinity)
                             .contentShape(Rectangle())
-                    }
-                    .buttonStyle(.bordered)
+                                    .foregroundColor(Color.white) // Changes the text color to white
+                                    .background(Color.red) // Changes the button's background color to red
+                                    .clipShape(RoundedRectangle(cornerRadius: 10)) // Rounds the corners
+                            }
+//                            .buttonStyle(.bordered)
+                    
+                    
                     
                     Button(action: {
                         if(input.isEmpty == false){
@@ -171,7 +176,6 @@ struct ContentView: View {
                         }
                         
                         .buttonStyle(.bordered)
-
                         Button( action:{
                              if(input.isEmpty){
                                 input = "0."
