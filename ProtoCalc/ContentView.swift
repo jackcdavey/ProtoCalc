@@ -33,9 +33,16 @@ struct ContentView: View {
     var body: some View {
         HStack{
             Spacer()
-            Text(input).bold()
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .contentShape(Rectangle())
+            Text(input)
+                .font(.system(.largeTitle))
+                .fontWeight(.bold)
+            
+//            Fix later
+                .frame(maxWidth: .infinity, idealHeight: 60, maxHeight: .infinity)
+                .overlay(
+                    RoundedRectangle(cornerRadius: /*@START_MENU_TOKEN@*/25.0/*@END_MENU_TOKEN@*/)
+                        .stroke(Color.black, lineWidth: 2)
+                )
             Spacer()
             //            Delete button
             Button(
@@ -45,6 +52,8 @@ struct ContentView: View {
                     }
                 }){
                     Image(systemName: "delete.left")
+                        .frame(maxWidth: 50, maxHeight: 50)
+                        .contentShape(Rectangle())
                 }
                 .buttonStyle(.bordered)
             
