@@ -1,31 +1,32 @@
 import SwiftUI
 
 struct MainView: View {
-    var body: some View {
-        TabView {
-            ContentView()
-                .badge(1)
-                .tabItem {
-                    Label("Calculator", systemImage: "function")
-						
-                }
-//				.background(.regularMaterial)
-            TestingRange()
-                .tabItem {
-                    Label("Testing", systemImage: "testtube.2")
-                }
-//				.background(.regularMaterial)
-            
-            
-        }
-		.toolbarBackground(.regularMaterial)
+	
+	init() {
+		UITabBar.appearance().isTranslucent = true
+		UITabBar.appearance().shadowImage = UIImage()
+	}
+	
+	var body: some View {
 		
-    }
+		
+		
+			TabView(selection: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Selection@*/.constant(1)/*@END_MENU_TOKEN@*/) {
+				ContentView()
+					.tabItem {
+						Label("Calculator", systemImage: "function").tag(1)
+					}
+				TestingRange()
+					.tabItem {
+						Label("Testing", systemImage: "testtube.2").tag(2)
+					}
+			}
+	}
 }
 
 struct MainView_Previews: PreviewProvider {
-    static var previews: some View {
-        MainView()
-    }
+	static var previews: some View {
+		MainView()
+	}
 }
 

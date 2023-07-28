@@ -16,6 +16,46 @@ extension String {
     }
 }
 
+struct DraggableButton: View {
+	@GestureState private var dragAmount = CGSize.zero
+
+	let action: () -> Void
+	let label: () -> Text
+
+	var body: some View {
+		let isPressed = dragAmount.width != 0 || dragAmount.height != 0
+		
+		return Button(action: action) {
+			label()
+				.padding()
+				.background(Color.blue)
+				.foregroundColor(.white)
+				.cornerRadius(10)
+		}
+		.scaleEffect(isPressed ? 0.9 : 1)
+		.rotation3DEffect( 
+			.degrees(Double(dragAmount.width / 10 - dragAmount.height / 10)),
+			axis: (x: 10.0, y: -10.0, z: 0.0)
+		)
+		.animation(.spring(), value: isPressed)
+		.gesture(
+			LongPressGesture(minimumDuration: 0)
+				.sequenced(before: DragGesture())
+				.updating($dragAmount) { value, state, transaction in
+					switch value {
+					case .first(true):
+						state = .zero
+					case .second(_, let drag):
+						state = drag?.translation ?? .zero
+					default:
+						break
+					}
+				}
+		)
+	}
+}
+
+
 struct ContentView: View {
     
     
@@ -40,6 +80,7 @@ struct ContentView: View {
 		VStack{
 			GeometryReader { geometry in
 				VStack{
+					Spacer()
 					//Display and delete
 					HStack{
 						Spacer()
@@ -47,8 +88,7 @@ struct ContentView: View {
 						Text(input)
 							.font(.system(.largeTitle))
 							.fontWeight(.bold)
-							.frame(maxWidth: .infinity, maxHeight: .infinity)
-							.contentShape(Rectangle())
+							.frame(maxWidth: .infinity)
 						
 						//Fix later
 						
@@ -73,6 +113,7 @@ struct ContentView: View {
 						
 					}
 					
+					Spacer()
 					
 					HStack(spacing: -1.0){
 						VStack{
@@ -199,21 +240,10 @@ struct ContentView: View {
 										.font(.title)
 										.fontWeight(.bold)
 										.frame(maxWidth: .infinity, maxHeight: .infinity)
-									
-									
-									
-									
-									
 								}
-								
 								.buttonStyle(.bordered)
-								
-								
-								
 								Spacer()
 							}
-							
-							
 						}
 						.frame(maxWidth: geometry.size.width * 3/4)
 						
@@ -303,8 +333,6 @@ struct ContentView: View {
 										.frame(maxWidth: .infinity, maxHeight: .infinity)
 										.contentShape(Rectangle())
 								}.buttonStyle(.bordered)
-								
-								
 							}
 							.frame(maxWidth: geometry.size.width * 1/4)
 							Spacer()
@@ -312,13 +340,8 @@ struct ContentView: View {
 						}
 					}
 					.frame(maxWidth: .infinity, maxHeight: geometry.size.height * 1/2)
-					
-					
 				}
-				
-				
 			}
-			
 		}
     }
 }
