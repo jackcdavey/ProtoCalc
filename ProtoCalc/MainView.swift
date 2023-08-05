@@ -14,11 +14,13 @@ struct MainView: View {
 			TabView(selection: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Selection@*/.constant(1)/*@END_MENU_TOKEN@*/) {
 				ContentView()
 					.tabItem {
-						Label("Calculator", systemImage: "function").tag(1)
+						Label("Calculator", systemImage: "function")
+							.tag(1)
 					}
 				TestingRange()
 					.tabItem {
-						Label("Testing", systemImage: "testtube.2").tag(2)
+						Label("Testing", systemImage: "testtube.2")
+							.tag(5)
 					}
 			}
 	}

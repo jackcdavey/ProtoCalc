@@ -9,11 +9,11 @@ import SwiftUI
 import Expression
 
 extension String {
-    var isNumber: Bool {
-        return self.range(
-            of: "^[0-9]*$", // 1
-            options: .regularExpression) != nil
-    }
+	var isNumber: Bool {
+		return self.range(
+			of: "^[0-9]*$", // 1
+			options: .regularExpression) != nil
+	}
 }
 
 struct DraggableButton: View {
@@ -33,7 +33,7 @@ struct DraggableButton: View {
 				.cornerRadius(10)
 		}
 		.scaleEffect(isPressed ? 0.9 : 1)
-		.rotation3DEffect( 
+		.rotation3DEffect(
 			.degrees(Double(dragAmount.width / 10 - dragAmount.height / 10)),
 			axis: (x: 10.0, y: -10.0, z: 0.0)
 		)
@@ -57,64 +57,129 @@ struct DraggableButton: View {
 
 
 struct ContentView: View {
-    
-    
-    @State var input = ""
+	
+	
+	@State var input = ""
+	@State var extraButtonsVisible = false
 
-    
-    
-    func evaluateExpression(_ expression: String) -> String {
-        let expression = Expression(expression)
-        if(input.last == "+" || input.last == "-" || input.last == "*" || input.last == "/"){
-            input.removeLast()
-            return input
-        }else if let result = try? expression.evaluate() {
-            let resultStr: String = (result.truncatingRemainder(dividingBy: 1) == 0) ? String(format: "%.0f", result) : String(result)
-            return resultStr
-        } else {
-            return "Error"
-        }
-    }
-    
-    var body: some View {
+
+	
+	
+	func evaluateExpression(_ expression: String) -> String {
+		let expression = Expression(expression)
+		if(input.last == "+" || input.last == "-" || input.last == "*" || input.last == "/"){
+			input.removeLast()
+			return input
+		}else if let result = try? expression.evaluate() {
+			let resultStr: String = (result.truncatingRemainder(dividingBy: 1) == 0) ? String(format: "%.0f", result) : String(result)
+			return resultStr
+		} else {
+			return "Error"
+		}
+	}
+	
+	var body: some View {
 		VStack{
 			GeometryReader { geometry in
 				VStack{
 					Spacer()
 					//Display and delete
-					HStack{
-						Spacer()
-						
-						Text(input)
-							.font(.system(.largeTitle))
-							.fontWeight(.bold)
-							.frame(maxWidth: .infinity)
-						
-						//Fix later
-						
-						Spacer()
-						//Delete button
-						Button(
-							action: {
-								let impactLig = UIImpactFeedbackGenerator(style: .light)
-								impactLig.impactOccurred()
-								if(input.count > 0){
-									input.removeLast()
+					ZStack{
+						RoundedRectangle(cornerRadius: /*@START_MENU_TOKEN@*/25.0/*@END_MENU_TOKEN@*/)
+							.stroke()
+						HStack{
+							Spacer()
+							
+							Text(input)
+								.font(.system(.largeTitle))
+								.fontWeight(.bold)
+								.frame(maxWidth: .infinity)
+							
+							//Fix later
+							
+							Spacer()
+							VStack{
+							//Delete button
+							Button(
+								action: {
+									let impactLig = UIImpactFeedbackGenerator(style: .light)
+									impactLig.impactOccurred()
+									if(input.count > 0){
+										input.removeLast()
+									}
+								}){
+									Image(systemName: "delete.left")
+										.frame(maxWidth: 50, maxHeight: 50)
+										.contentShape(Rectangle())
+									
 								}
-							}){
-								Image(systemName: "delete.left")
-									.frame(maxWidth: 50, maxHeight: 50)
-									.contentShape(Rectangle())
-								
+								.buttonStyle(.bordered)
+								.padding()
+
+								//Expand button
+							Button(
+								action: {
+									let impactLig = UIImpactFeedbackGenerator(style: .light)
+									impactLig.impactOccurred()
+									extraButtonsVisible.toggle()
+								}){
+									Image(systemName: "gyroscope")
+										.frame(maxWidth: 50, maxHeight: 50)
+										.contentShape(Rectangle())
+									
+								}
+								.buttonStyle(.bordered)
+								.padding()
 							}
-							.buttonStyle(.bordered)
+							
+							Spacer()
+							
+						}
+					}
+					
+					
+					Spacer()
+
+					//Extra buttons
+					if(extraButtonsVisible){
+					HStack{
+						Button(action: {
+							//Take the log of the input
+							let impactMed = UIImpactFeedbackGenerator(style: .medium)
+							impactMed.impactOccurred()
+							if(input.isEmpty == false && input.last?.isNumber==true){
+								input = evaluateExpression(input)
+								input = String(log10(Double(input)!))
+							}
+						})
+						{
+							Text("LOG")
+								.fontWeight(.bold)
+								.frame(maxWidth: .infinity, maxHeight: 50)
+								.contentShape(Rectangle())
+							
+						}.buttonStyle(.bordered)
 						
-						Spacer()
-						
+						Button(action: {
+							//Replace input with PI
+							let impactMed = UIImpactFeedbackGenerator(style: .medium)
+							impactMed.impactOccurred()
+							input = "3.141592653589793238462643383279502884197169399375105820974944592307816406286"
+						})
+						{
+							Text("π")
+								.fontWeight(.bold)
+								.frame(maxWidth: .infinity, maxHeight: 50)
+								.contentShape(Rectangle())
+							
+						}.buttonStyle(.bordered)
+							
+							
+					}
 					}
 					
 					Spacer()
-					
+
 					HStack(spacing: -1.0){
 						VStack{
 							//Other function btns
@@ -218,7 +283,7 @@ struct ContentView: View {
 									Text("0")
 										.font(.title)
 										.fontWeight(.bold)
-										.frame(maxWidth: .infinity, maxHeight: .infinity)
+										.frame(maxWidth: geometry.size.width * 3/4, maxHeight: .infinity)
 								}
 								
 								.buttonStyle(.bordered)
@@ -239,7 +304,7 @@ struct ContentView: View {
 									Text(".")
 										.font(.title)
 										.fontWeight(.bold)
-										.frame(maxWidth: .infinity, maxHeight: .infinity)
+										.frame(maxWidth: geometry.size.width * 1/4, maxHeight: .infinity)
 								}
 								.buttonStyle(.bordered)
 								Spacer()
@@ -248,109 +313,108 @@ struct ContentView: View {
 						.frame(maxWidth: geometry.size.width * 3/4)
 						
 						//Operation buttons
-						HStack{
-							VStack(){
-								Button(action:{
-									if(input.isEmpty==false && input.last?.isNumber==true){
-										input += "+"
-									} else{
-										input.removeLast()
-										input += "+"
-									}
-									
-									let impactMed = UIImpactFeedbackGenerator(style: .medium)
-									impactMed.impactOccurred()
-								}){
-									Text("+")
-										.font(.title)
-										.fontWeight(.bold)
-										.frame(maxWidth: .infinity, maxHeight: .infinity)
-										.contentShape(Rectangle())
-								}.buttonStyle(.bordered)
+						VStack(){
+							Button(action:{
+								if(input.isEmpty==false && input.last?.isNumber==true){
+									input += "+"
+								} else{
+									input.removeLast()
+									input += "+"
+								}
 								
-								Button(action:{
-									if(input.isEmpty==false && input.last?.isNumber==true){
-										input += "-"
-									} else{
-										input.removeLast()
-										input += "-"
-									}
-									let impactMed = UIImpactFeedbackGenerator(style: .medium)
-									impactMed.impactOccurred()
-								}){
-									Text("-")
-										.font(.title)
-										.fontWeight(.bold)
-										.frame(maxWidth: .infinity, maxHeight: .infinity)
-										.contentShape(Rectangle())
-								}.buttonStyle(.bordered)
-								
-								
-								Button(action:{
-									if(input.isEmpty==false && input.last?.isNumber==true){
-										input += "*"
-									}  else{
-										input.removeLast()
-										input += "*"
-									}
-									let impactMed = UIImpactFeedbackGenerator(style: .medium)
-									impactMed.impactOccurred()
-								}){
-									Text("x")
-										.font(.title)
-										.fontWeight(.bold)
-										.frame(maxWidth: .infinity, maxHeight: .infinity)
-										.contentShape(Rectangle())
-								}.buttonStyle(.bordered)
-								
-								Button(action:{
-									if(input.isEmpty==false && input.last?.isNumber==true){
-										input += "/"
-									}  else{
-										input.removeLast()
-										input += "/"
-									}
-									let impactMed = UIImpactFeedbackGenerator(style: .medium)
-									impactMed.impactOccurred()
-								}){
-									Text("÷")
-										.font(.title)
-										.fontWeight(.bold)
-										.frame(maxWidth: .infinity, maxHeight: .infinity)
-										.contentShape(Rectangle())
-								}.buttonStyle(.bordered)
-								
-								Button(action:{
-									let impactMed = UIImpactFeedbackGenerator(style: .medium)
-									impactMed.impactOccurred()
-									if(input.isEmpty == false){
-										input = evaluateExpression(input)
-									}
-								}){
-									Text("=")
-										.font(.title)
-										.fontWeight(.bold)
-										.frame(maxWidth: .infinity, maxHeight: .infinity)
-										.contentShape(Rectangle())
-								}.buttonStyle(.bordered)
-							}
-							.frame(maxWidth: geometry.size.width * 1/4)
-							Spacer()
-								.frame(width: 10.0)
+								let impactMed = UIImpactFeedbackGenerator(style: .medium)
+								impactMed.impactOccurred()
+							}){
+								Text("+")
+									.font(.title)
+									.fontWeight(.bold)
+									.frame(maxWidth: .infinity, maxHeight: .infinity)
+									.contentShape(Rectangle())
+							}.buttonStyle(.bordered)
+							
+							Button(action:{
+								if(input.isEmpty==false && input.last?.isNumber==true){
+									input += "-"
+								} else{
+									input.removeLast()
+									input += "-"
+								}
+								let impactMed = UIImpactFeedbackGenerator(style: .medium)
+								impactMed.impactOccurred()
+							}){
+								Text("-")
+									.font(.title)
+									.fontWeight(.bold)
+									.frame(maxWidth: .infinity, maxHeight: .infinity)
+									.contentShape(Rectangle())
+							}.buttonStyle(.bordered)
+							
+							
+							Button(action:{
+								if(input.isEmpty==false && input.last?.isNumber==true){
+									input += "*"
+								}  else{
+									input.removeLast()
+									input += "*"
+								}
+								let impactMed = UIImpactFeedbackGenerator(style: .medium)
+								impactMed.impactOccurred()
+							}){
+								Text("x")
+									.font(.title)
+									.fontWeight(.bold)
+									.frame(maxWidth: .infinity, maxHeight: .infinity)
+									.contentShape(Rectangle())
+							}.buttonStyle(.bordered)
+							
+							Button(action:{
+								if(input.isEmpty==false && input.last?.isNumber==true){
+									input += "/"
+								}  else{
+									input.removeLast()
+									input += "/"
+								}
+								let impactMed = UIImpactFeedbackGenerator(style: .medium)
+								impactMed.impactOccurred()
+							}){
+								Text("÷")
+									.font(.title)
+									.fontWeight(.bold)
+									.frame(maxWidth: .infinity, maxHeight: .infinity)
+									.contentShape(Rectangle())
+							}.buttonStyle(.bordered)
+							
+							Button(action:{
+								let impactMed = UIImpactFeedbackGenerator(style: .medium)
+								impactMed.impactOccurred()
+								if(input.isEmpty == false){
+									input = evaluateExpression(input)
+								}
+							}){
+								Text("=")
+									.font(.title)
+									.fontWeight(.bold)
+									.frame(maxWidth: .infinity, maxHeight: .infinity)
+									.contentShape(Rectangle())
+							}.buttonStyle(.bordered)
 						}
+						.frame(maxWidth: geometry.size.width * 1/4)
+						Spacer()
+							.frame(width: 10.0)
+
 					}
 					.frame(maxWidth: .infinity, maxHeight: geometry.size.height * 1/2)
 				}
 			}
 		}
-    }
+	}
 }
 
 struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-    }
+	static var previews: some View {
+		ContentView()
+	}
 }
 
 
-                   
+				   
