@@ -82,22 +82,24 @@ struct ContentView: View {
 		VStack{
 			GeometryReader { geometry in
 				VStack{
-					Spacer()
+//					Spacer()
 					//Display and delete
 					ZStack{
 						RoundedRectangle(cornerRadius: /*@START_MENU_TOKEN@*/25.0/*@END_MENU_TOKEN@*/)
-							.stroke()
+							.background(.ultraThinMaterial)
+							.opacity(0.1)
 						HStack{
-							Spacer()
+//							Spacer()
 							
 							Text(input)
 								.font(.system(.largeTitle))
 								.fontWeight(.bold)
 								.frame(maxWidth: .infinity)
+								.padding()
 							
 							//Fix later
 							
-							Spacer()
+//							Spacer()
 							VStack{
 							//Delete button
 							Button(
@@ -132,10 +134,13 @@ struct ContentView: View {
 								.padding()
 							}
 							
-							Spacer()
+//							Spacer()
 							
 						}
 					}
+					.padding()
+					.frame(idealHeight:50, maxHeight: 300)
+
 					
 					
 					Spacer()
@@ -151,6 +156,7 @@ struct ContentView: View {
 								input = evaluateExpression(input)
 								input = String(log10(Double(input)!))
 							}
+							
 						})
 						{
 							Text("LOG")
@@ -159,6 +165,8 @@ struct ContentView: View {
 								.contentShape(Rectangle())
 							
 						}.buttonStyle(.bordered)
+							.transition(.scale)
+							
 						
 						Button(action: {
 							//Replace input with PI
@@ -173,9 +181,9 @@ struct ContentView: View {
 								.contentShape(Rectangle())
 							
 						}.buttonStyle(.bordered)
-							
-							
+							.transition(.opacity)
 					}
+					
 					}
 					
 					Spacer()
@@ -254,7 +262,11 @@ struct ContentView: View {
 									Spacer()
 									ForEach(1 ..< 4) { i in
 										Button(action: {
-											input += "\(i + (j*3))"
+											if(input == "Error" || input == "nan"){
+												input = "\(i + (j*3))"
+											} else {
+												input += "\(i + (j*3))"
+											}
 											let impactMed = UIImpactFeedbackGenerator(style: .medium)
 											impactMed.impactOccurred()
 										}) {
@@ -276,7 +288,11 @@ struct ContentView: View {
 							HStack{
 								Spacer()
 								Button( action:{
-									input += "0"
+									if(input == "Error" || input == "nan"){
+										input = "0"
+									} else {
+										input += "0"
+									}
 									let impactMed = UIImpactFeedbackGenerator(style: .medium)
 									impactMed.impactOccurred()
 								}){
@@ -288,7 +304,7 @@ struct ContentView: View {
 								
 								.buttonStyle(.bordered)
 								Button( action:{
-									if(input.isEmpty){
+									if(input.isEmpty || input == "Error" || input == "nan"){
 										input = "0."
 									} else if(input.contains(".") == false){
 										input += "."
@@ -317,11 +333,12 @@ struct ContentView: View {
 							Button(action:{
 								if(input.isEmpty==false && input.last?.isNumber==true){
 									input += "+"
-								} else{
+								} else if(input == "Error" || input == "nan"){
+									input = ""
+								}else{
 									input.removeLast()
 									input += "+"
 								}
-								
 								let impactMed = UIImpactFeedbackGenerator(style: .medium)
 								impactMed.impactOccurred()
 							}){
@@ -335,7 +352,9 @@ struct ContentView: View {
 							Button(action:{
 								if(input.isEmpty==false && input.last?.isNumber==true){
 									input += "-"
-								} else{
+								} else if(input == "Error" || input == "nan"){
+									input = ""
+								}else{
 									input.removeLast()
 									input += "-"
 								}
@@ -353,7 +372,9 @@ struct ContentView: View {
 							Button(action:{
 								if(input.isEmpty==false && input.last?.isNumber==true){
 									input += "*"
-								}  else{
+								}  else if(input == "Error" || input == "nan"){
+									input = ""
+								}else{
 									input.removeLast()
 									input += "*"
 								}
@@ -370,7 +391,9 @@ struct ContentView: View {
 							Button(action:{
 								if(input.isEmpty==false && input.last?.isNumber==true){
 									input += "/"
-								}  else{
+								}  else if(input == "Error" || input == "nan"){
+									input = ""
+								}else{
 									input.removeLast()
 									input += "/"
 								}
